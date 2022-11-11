@@ -16,50 +16,22 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
         <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
+        <link rel="stylesheet" href="{{ asset('assets/css/index.css') }}">
     </head>
     <body>
         <div class="flex-center position-ref full-height">
             <div class="content">
-                <div class="title m-b-md">
+                <div class="title">
                     E-Service
                 </div>
-
+                <div class="m-b-md service-note">
+                    <p>E-service can help you send mail to another email quickly and conveniently</p>
+                </div>
+                <div class="alert-message"></div>
                 <div class="links">
-                    <form>
+                    <form class="send-mail-fr">
                         <div class="form-group">
-                            <label for="receiver">Receiver</label>
+                            <label for="receiver">Mail to</label>
                             <input class="form-control" name="receiver" id="receiver">
                         </div>
                         <div class="form-group">
@@ -67,19 +39,37 @@
                             <input class="form-control" name="subject" id="subject">
                         </div>
                         <div class="form-group">
-                            <label for="content">Mail content</label>
-                            <textarea class="form-control" name="content"></textarea>
+                            <label for="content">Content</label>
+                            <textarea class="form-control" name="content" rows="10"></textarea>
                         </div>
                         <div class="form-group">
-                            <button type="button" class="btn btn-default">Reset</button>
-                            <button type="submit" class="btn btn-success">Send</button>
+                            <button type="button" class="btn btn-default btn-reset">Reset</button>
+                            <button type="button" class="btn btn-success btn-send">Send</button>
                         </div>
                     </form>
                 </div>
+                <div class="server-info">
+                    <div class="url" data-value="{{ route('send_mail') }}"></div>
+                    <div class="api_key" data-value="{{ $api_key }}"></div>
+                </div>
+            </div>
+        </div>
+        <div id="overlay">
+            <div class="cv-spinner">
+                <span class="spinner"></span>
             </div>
         </div>
 
+        <!-- Jquery -->
+        <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+        <!-- Jquery validation -->
+        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+
+        <!-- Javascript -->
+        <script src="{{ asset('assets/js/index.js') }}"></script>
     </body>
 </html>

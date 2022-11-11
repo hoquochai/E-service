@@ -7,13 +7,45 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 abstract class SendMailAbstract
 {
+    /**
+     * @var
+     */
     private $host;
+
+    /**
+     * @var
+     */
     private $port;
+
+    /**
+     * @var
+     */
     private $username;
+
+    /**
+     * @var
+     */
     private $password;
+
+    /**
+     * @var mixed|string
+     */
     private $SMTPSecure;
+
+    /**
+     * @var
+     */
     private $from;
-    public function __construct($host, $port, $username, $password, $from, $SMTPSecure = 'tls')
+
+    /**
+     * @param $host
+     * @param $port
+     * @param $username
+     * @param $password
+     * @param $from
+     * @param string $SMTPSecure
+     */
+    public function __construct($host, $port, $username, $password, $from, string $SMTPSecure = 'ssl')
     {
         $this->host = $host;
         $this->port = $port;
@@ -23,7 +55,19 @@ abstract class SendMailAbstract
         $this->SMTPSecure = $SMTPSecure;
     }
 
-    public function send($to = [], $subject = '', $content = '', $options = [])
+    /**
+     * @param array $to
+     * @param string $subject
+     * @param string $content
+     * @param array $options
+     * @return bool
+     */
+    public function send(
+        array $to = [],
+        string $subject = '',
+        string $content = '',
+        array $options = []
+    ) :bool
     {
         $mail = new PHPMailer();
         $mail->isSMTP();
@@ -38,10 +82,8 @@ abstract class SendMailAbstract
             $mail->From = isset($this->from['address']) ? $this->from['address'] : '';
             $mail->FromName = isset($this->from['name']) ? $this->from['name'] : '';
 
-            foreach ($to as $receives) {
-                foreach ($receives as $key => $value) {
-                    $mail->addAddress($key, $value);
-                }
+            foreach ($to as $email => $name) {
+                $mail->addAddress($email, $name);
             }
 
             $mail->isHTML(isset($options['isHtml']) && $options['isHtml']);
@@ -49,9 +91,16 @@ abstract class SendMailAbstract
             $mail->Subject = $subject;
             $mail->Body = $content;
 
-            return $mail->send();
+            if (!$mail->send()) {
+                Log::info('Send mail failure');
+                Log::error($mail->ErrorInfo);
+
+                return false;
+            }
+
+            return true;
         } catch (\Exception $exception) {
-            Log::info('Send mail failure');
+            Log::info('Send mail has the exception');
             Log::error($exception->getMessage());
 
             return false;
