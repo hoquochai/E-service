@@ -1,5 +1,4 @@
 # E-service
-<hr>
 
 ## About e-service
 E-service can help you send mail to another email quickly and conveniently
@@ -19,7 +18,10 @@ E-service can help you send mail to another email quickly and conveniently
 ```
 git clone git@github.com:hoquochai/E-service.git
 ```
-
+- Go to project
+```
+cd E-service
+```
 - Run composer for install package: 
 ```
 composer install
